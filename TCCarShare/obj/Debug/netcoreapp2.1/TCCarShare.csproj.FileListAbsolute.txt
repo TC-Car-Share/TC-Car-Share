@@ -1,0 +1,16 @@
+D:\Hackthon Project\TCCarShare\TCCarShare\bin\Debug\netcoreapp2.1\appsettings.Development.json
+D:\Hackthon Project\TCCarShare\TCCarShare\bin\Debug\netcoreapp2.1\appsettings.json
+D:\Hackthon Project\TCCarShare\TCCarShare\bin\Debug\netcoreapp2.1\Properties\launchSettings.json
+D:\Hackthon Project\TCCarShare\TCCarShare\bin\Debug\netcoreapp2.1\TCCarShare.deps.json
+D:\Hackthon Project\TCCarShare\TCCarShare\bin\Debug\netcoreapp2.1\TCCarShare.runtimeconfig.json
+D:\Hackthon Project\TCCarShare\TCCarShare\bin\Debug\netcoreapp2.1\TCCarShare.runtimeconfig.dev.json
+D:\Hackthon Project\TCCarShare\TCCarShare\bin\Debug\netcoreapp2.1\TCCarShare.dll
+D:\Hackthon Project\TCCarShare\TCCarShare\obj\Debug\netcoreapp2.1\TCCarShare.csprojAssemblyReference.cache
+D:\Hackthon Project\TCCarShare\TCCarShare\obj\Debug\netcoreapp2.1\TCCarShare.RazorAssemblyInfo.cache
+D:\Hackthon Project\TCCarShare\TCCarShare\obj\Debug\netcoreapp2.1\TCCarShare.RazorAssemblyInfo.cs
+D:\Hackthon Project\TCCarShare\TCCarShare\obj\Debug\netcoreapp2.1\TCCarShare.AssemblyInfoInputs.cache
+D:\Hackthon Project\TCCarShare\TCCarShare\obj\Debug\netcoreapp2.1\TCCarShare.AssemblyInfo.cs
+D:\Hackthon Project\TCCarShare\TCCarShare\obj\Debug\netcoreapp2.1\TCCarShare.RazorTargetAssemblyInfo.cache
+D:\Hackthon Project\TCCarShare\TCCarShare\bin\Debug\netcoreapp2.1\TCCarShare.pdb
+D:\Hackthon Project\TCCarShare\TCCarShare\obj\Debug\netcoreapp2.1\TCCarShare.dll
+D:\Hackthon Project\TCCarShare\TCCarShare\obj\Debug\netcoreapp2.1\TCCarShare.pdb
