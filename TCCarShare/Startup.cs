@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using TCCarShare.Data;
+using TCCarShare.IServices;
 using TCCarShare.Models;
 using TCCarShare.Services;
 
@@ -31,10 +32,12 @@ namespace TCCarShare
         {
             services.AddDbContext<DataContext>(options =>
             {
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                options.UseMySQL(Configuration.GetConnectionString("DefaultConnection"));
             });
+            services.AddScoped<CarServices>();
             services.AddScoped<IServices<Car>, CarServices>();
             services.AddScoped<IServices<Employee>, EmployeeService>();
+            services.AddScoped<IServices<Line>, LineService>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 

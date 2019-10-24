@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TCCarShare.Data;
+using TCCarShare.IServices;
 using TCCarShare.Models;
 
 namespace TCCarShare.Services
@@ -31,6 +32,13 @@ namespace TCCarShare.Services
             _context.Add(newModel);
             _context.SaveChanges();
             return newModel;
+        }
+
+        public bool Edit(Car model)
+        {
+            _context.Update(model);
+            var update = _context.SaveChanges() > 0;
+            return update;
         }
     }
 }
