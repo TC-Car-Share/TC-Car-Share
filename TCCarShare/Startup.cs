@@ -34,6 +34,7 @@ namespace TCCarShare
             {
                 options.UseMySQL(Configuration.GetConnectionString("DefaultConnection"));
             });
+            services.AddScoped<CarServices>();
             services.AddScoped<IServices<Car>, CarServices>();
             services.AddScoped<IServices<Employee>, EmployeeService>();
             services.AddScoped<IServices<Line>, LineService>();

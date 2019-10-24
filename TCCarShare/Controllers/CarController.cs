@@ -5,24 +5,76 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using TCCarShare.IServices;
+using TCCarShare.Entity.Request;
+using TCCarShare.Entity.Response;
 using TCCarShare.Models;
+using TCCarShare.Services;
 
 namespace TCCarShare.Controllers
 {
     [Route("[controller]")]
     public partial class CarController : Controller
     {
-        private readonly IServices<Car> _repository;
+        private readonly CarServices _repository;
 
-        public CarController(IServices<Car> repository)
+        public CarController(CarServices repository)
         {
             _repository = repository;
         }
 
-        [HttpPost("GetCarInfo")]
-        public string GetCarInfo()
+        [HttpPost("EditCarInfo")]
+        public string EditCarInfo([FromBody]EditCarInfoRequest request)
         {
-            var result = _repository.GetById(1);
+            var result = new EditCarInfoResponse();
+            if (request.id.PackInt() > 0)
+            {
+                var model = _repository.GetById(request.id.PackInt());
+                if (model == null)
+                {
+                    result.ResultMsg = "未查询到车辆信息";
+                    result.StateCode = 404;
+                    return JsonConvert.SerializeObject(result);
+                }
+                Car newCar = new Car
+                {
+                    id = Convert.ToInt32(request.id),
+                    carBrand = request.carBrand,
+                    carColor = request.carColor,
+                    carLicenseImg = request.carLicenseImg,
+                    carMasterId = request.carMasterId.PackInt(),
+                    carNo = request.carNo,
+                    carSeatNum = request.carSeatNum.PackInt(),
+                    carType = request.carType.PackInt()
+                };
+                var update = _repository.Edit(newCar);
+                if(update)
+                {
+                    result.ResultMsg = "编辑成功";
+                    result.StateCode = 200;
+                }
+            }
+            else
+            {
+                Car newCar = new Car
+                {
+                    carBrand = request.carBrand,
+                    carColor = request.carColor,
+                    carLicenseImg = request.carLicenseImg,
+                    carMasterId = request.carMasterId.PackInt(),
+                    carNo = request.carNo,
+                    carSeatNum = request.carSeatNum.PackInt(),
+                    carType = request.carType.PackInt()
+                };
+                var add = _repository.Add(newCar);
+                if (add == null)
+                {
+                    result.ResultMsg = "新增失败";
+                    result.StateCode = 201;
+                    return JsonConvert.SerializeObject(result);
+                }
+                result.ResultMsg = "新增成功";
+                result.StateCode = 200;
+            }
             return JsonConvert.SerializeObject(result);
         }
     }
