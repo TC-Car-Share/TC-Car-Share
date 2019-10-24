@@ -23,5 +23,7 @@ namespace TCCarShare.Entity.Request
         public string endPoint { get; set; }
         public string passengerNum { get; set; }
         public string startDateTime { get; set; }
+        public string sex { get; set; } = "-1";
+        
     }
 }

@@ -52,7 +52,9 @@ namespace TCCarShare.Controllers
                 createTime = DateTime.Now,
                 passengerNum = request.passengerNum.PackInt(),
                 startDateTime = request.startDateTime.PackDateTime(),
-                orderAmount = driveInfo.result.routes.FirstOrDefault().taxi_fare.fare
+                orderAmount = driveInfo.result.routes.FirstOrDefault().taxi_fare.fare,
+                distance = driveInfo.result.routes.FirstOrDefault().distance,
+                sex = request.sex.PackInt()
             };
 
             _services.Add(order);
@@ -75,7 +77,7 @@ namespace TCCarShare.Controllers
             order.driverId = request.driverId.PackInt();
             order.status = request.status.PackInt();
 
-            var entry = _context.Entry(order);
+            var entry = _context.Attach(order);
             entry.State = EntityState.Unchanged;
             if (order.driverId > 0)
             {
@@ -84,9 +86,9 @@ namespace TCCarShare.Controllers
                     resp.ResultMsg = "您超过最大载客数，无法接单";
                     resp.StateCode = 200;
                 }
-                entry.Property("driverId").IsModified = true;
+                entry.Property(p=>p.driverId).IsModified = true;
             }
-            entry.Property("status").IsModified = true;
+            entry.Property(p => p.status).IsModified = true;
             var result = _context.SaveChanges() > 0;
             if (result)
             {
@@ -109,6 +111,11 @@ namespace TCCarShare.Controllers
             #endregion
             var passengerId = request.passengerId.PackInt();
             List<Order> orders = _context.Order.Where(m => m.passengerId == passengerId).ToList();
+            if (request.status != "-1")
+            {
+                var status = request.PackInt();
+                orders = orders.Where(m => m.status == status).ToList();
+            }
             foreach (var item in orders)
             {
                 var orderDetail = new OrderDetail();
