@@ -48,5 +48,21 @@ namespace TCCarShare.Controllers
             var result = new MapServices().GetMoneyNumber(request);
             return JsonConvert.SerializeObject(result);
         }
+
+        [HttpPost("GetlatlngInfoList")]
+        public string GetlatlngInfoList()
+        {
+            var aaa = new List<double>() {                
+    31.252097,
+    120.730546,
+    159,
+    -89,
+    0,
+    0,
+    324,
+    903};
+            var result = new MapServices().GetlatlngInfoList(aaa);
+            return JsonConvert.SerializeObject(result);
+        }
     }
 }

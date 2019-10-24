@@ -39,6 +39,8 @@ namespace TCCarShare
             services.AddScoped<IServices<Car>, CarServices>();
             services.AddScoped<IEmployeeService<Employee>, EmployeeService>();
             services.AddScoped<ILineService<Line>, LineService>();
+            services.AddScoped<ILineService<Line>, LineService>();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
