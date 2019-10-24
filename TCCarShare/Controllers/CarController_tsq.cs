@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using TCCarShare.Entity.Request;
 using TCCarShare.Models;
 using TCCarShare.Models.Request;
 using TCCarShare.Services;
@@ -24,6 +25,16 @@ namespace TCCarShare.Controllers
             return JsonConvert.SerializeObject(result);
         }
 
-
+        /// <summary>
+        /// 逆地址解析
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpPost("GetAddressBylnglat")]
+        public string GetAddressBylnglat([FromBody]GeocoderRequest request)
+        {
+            var result = new MapServices().GetAddressBylnglat(request);
+            return JsonConvert.SerializeObject(result);
+        }
     }
 }
