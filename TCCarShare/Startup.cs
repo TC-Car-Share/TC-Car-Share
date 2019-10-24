@@ -31,9 +31,10 @@ namespace TCCarShare
         {
             services.AddDbContext<DataContext>(options =>
             {
-                options.UseMySQL(Configuration.GetConnectionString("DefaultConnection"));
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
-            services.AddScoped<IServices<car>, EFCoreServices>();
+            services.AddScoped<IServices<Car>, CarServices>();
+            services.AddScoped<IServices<Employee>, EmployeeService>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 

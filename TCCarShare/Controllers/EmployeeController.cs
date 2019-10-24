@@ -3,27 +3,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using TCCarShare.Models;
 using TCCarShare.Services;
+using Newtonsoft.Json;
 
 namespace TCCarShare.Controllers
 {
     [Route("[controller]")]
-    public partial class CarController : Controller
+    public class EmployeeController
     {
-        private readonly IServices<Car> _repository;
+        private readonly IServices<Employee> _repository;
 
-        public CarController(IServices<Car> repository)
+        public EmployeeController(IServices<Employee> repository)
         {
             _repository = repository;
         }
 
-        [HttpPost("GetCarInfo")]
-        public string GetCarInfo()
+        [HttpGet("GetEmployeeById")]
+        public string GetEmployeeById(int id)
         {
-            var result = _repository.GetById(1);
+            var result = _repository.GetById(id);
             return JsonConvert.SerializeObject(result);
+
         }
     }
 }
