@@ -21,7 +21,8 @@ namespace TCCarShare.Models
 
         public int driveExp { get; set; }
 
-            
+        public int isSingle { get; set; }
+
         public string driveLicenseImg { get; set; }
 
         public string password { get; set; }
