@@ -96,3 +96,6 @@ TCCarShare/Properties/launchSettings.json
 /TCCarShare/obj/Debug/netcoreapp2.1/TCCarShare.dll
 /TCCarShare/obj/Debug/netcoreapp2.1/TCCarShare.pdb
 /TCCarShare/obj/TCCarShare.csproj.nuget.cache
+/.vs/TCCarShare/v16/.suo
+/.vs/TCCarShare/v16/Server/sqlite3/storage.ide
+/.vs/TCCarShare/v16/Server/sqlite3/storage.ide-wal

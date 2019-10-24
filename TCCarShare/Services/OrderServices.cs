@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TC.ZBY.FrameworkCore.Utility;
 using TCCarShare.Data;
+using TCCarShare.Entity.Request;
 using TCCarShare.Entity.Response;
 using TCCarShare.IServices;
 using TCCarShare.Models;
@@ -43,10 +45,11 @@ namespace TCCarShare.Services
             return update;
         }
 
-        public List<WaitingOrder> GetAllWaiting()
+        public List<WaitingOrder> GetAllWaiting(WaitingOrderRequest request)
         {
             var resp = new List<WaitingOrder>();
             List<Order> orders = _context.Order.Where(m => m.status == 0).ToList();
+            
             foreach (var item in orders)
             {
                 var waitingOrder = new WaitingOrder();
@@ -63,9 +66,27 @@ namespace TCCarShare.Services
                 waitingOrder.info.startPoint = item.startPoint;
                 waitingOrder.info.passengerNum = item.passengerNum;
                 waitingOrder.info.orderAmount = item.orderAmount;
+                if (request.sex > -1 && waitingOrder.extension.sex.PackInt() != request.sex)
+                {
+                    continue;
+                }
+                if (request.isSingle > -1 && waitingOrder.extension.isSingle.PackInt() != request.isSingle)
+                {
+                    continue;
+                }
+                if (request.sex > -1 && waitingOrder.extension.sex.PackInt() != request.sex)
+                {
+                    continue;
+                }
                 resp.Add(waitingOrder);
             }
             return resp;
+        }
+
+        public int GetAllPassengerNum(int driverId)
+        {
+            var orders = _context.Order.Where(m => m.driverId == driverId && m.status == 1);
+            return orders.Sum(m => m.passengerNum);
         }
     }
 }

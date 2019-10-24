@@ -21,5 +21,6 @@ namespace TCCarShare.Models
         public int passengerNum { get; set; }
         public DateTime startDateTime { get; set; }
         public decimal orderAmount { get; set; }
+        public decimal similarity { get; set; }
     }
 }

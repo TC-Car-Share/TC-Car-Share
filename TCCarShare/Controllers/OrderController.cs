@@ -32,6 +32,12 @@ namespace TCCarShare.Controllers
             var resp = new CommonBaseInfo();
             #region 参数验证
             #endregion
+            var startLocation = request.startLat.ToString() + "," + request.startLon.ToString();
+            var endLocation = request.endLat.ToString() + "," + request.endLon.ToString();
+            var driveInfo = new MapServices().GetDrivingInfo(new GetDrivingInfoResquest {
+                FromLocation = startLocation,
+                ToLocation = endLocation
+            });
             Order order = new Order
             {
                 passengerId = request.passengerId.PackInt(),
@@ -44,7 +50,8 @@ namespace TCCarShare.Controllers
                 status = 0,
                 createTime = DateTime.Now,
                 passengerNum = request.passengerNum.PackInt(),
-                startDateTime = request.startDateTime.PackDateTime()
+                startDateTime = request.startDateTime.PackDateTime(),
+                orderAmount = driveInfo.result.routes.FirstOrDefault().taxi_fare.fare
             };
 
             _services.Add(order);
@@ -59,7 +66,8 @@ namespace TCCarShare.Controllers
             var resp = new CommonBaseInfo();
             #region 参数验证
             #endregion
-            Order order = new Order
+            
+            var order = _context.Order.Where(m=>m.id = request.id.PackInt())
             {
                 id = request.id.PackInt(),
                 driverId = request.driverId.PackInt(),
@@ -70,6 +78,7 @@ namespace TCCarShare.Controllers
             entry.State = EntityState.Unchanged;
             if (order.driverId > 0)
             {
+                if(new OrderServices().GetAllPassengerNum(order.driverId) + )
                 entry.Property("driverId").IsModified = true;
             }
             entry.Property("status").IsModified = true;
