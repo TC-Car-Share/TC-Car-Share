@@ -259,7 +259,7 @@ namespace TCCarShare.Services
                 FromLocation = request.FromLat + "," + request.FromLng,
                 ToLocation = request.ToLat + "," + request.ToLng
             });
-            if (drivingInfo == null || drivingInfo.status != 0 || drivingInfo.result.routes != null || drivingInfo.result.routes.Count <= 0)
+            if (drivingInfo == null || drivingInfo.status != 0 || drivingInfo.result.routes == null || drivingInfo.result.routes.Count <= 0)
             {
                 response.ResultMsg = "查无数据";
                 return response;
@@ -267,32 +267,126 @@ namespace TCCarShare.Services
 
             foreach (var item in orderList)
             {
-                //if (drivingInfo.result.routes.FirstOrDefault().distance> item.info)
-                //{
+                var isCan = false;
+                var dis = 0m;
+                if (drivingInfo.result.routes.FirstOrDefault().distance < item.info.distance)
+                {
+                    //如果小于乘客，则去查询乘客路线
+                    var userInfo = GetDrivingInfo(new GetDrivingInfoResquest()
+                    {
+                        FromLocation = item.info.startLat + "," + item.info.startLon,
+                        ToLocation = item.info.endLat + "," + item.info.endLon
+                    });
+                    if (userInfo == null || userInfo.status != 0 || userInfo.result.routes == null || userInfo.result.routes.Count <= 0)
+                    {
+                        continue;
+                    }
 
-                //}
-                //else
-                //{
+                    var coors = GetlatlngInfoList(userInfo.result.routes.FirstOrDefault().polyline);
 
-                //}
+                    List<Task> tasks = new List<Task>();
+                    var isCan1 = false;
+                    var isCan2 = false;
+                    var location1 = "";
+                    var location2 = "";
+                    tasks.Add(Task.Factory.StartNew(() =>
+                    {
+                        var result = GetCanTakeitResult(request.FromLat + "," + request.FromLng, coors);
+                        isCan1 = result.result;
+                        location1 = result.location;
+                    }));
+                    tasks.Add(Task.Factory.StartNew(() =>
+                    {
+                        var result = GetCanTakeitResult(request.ToLat + "," + request.ToLng, coors);
+                        isCan2 = result.result;
+                        location2 = result.location;
+                    }));
 
+                    Task.WhenAll(tasks.ToArray()).Wait();
+
+                    var disInfo = GetDrivingInfo(new GetDrivingInfoResquest()
+                    {
+                        FromLocation = location1,
+                        ToLocation = location2
+                    });
+                    if (userInfo != null && userInfo.status == 0 && userInfo.result.routes != null && userInfo.result.routes.Count > 0)
+                    {
+                        dis = userInfo.result.routes.FirstOrDefault().distance;
+                    }
+                    
+                    isCan = isCan1 && isCan2;
+                }
+                else
+                {
+                    var coors = GetlatlngInfoList(drivingInfo.result.routes.FirstOrDefault().polyline);
+                    List<Task> tasks = new List<Task>();
+                    var isCan1 = false;
+                    var isCan2 = false;
+                    var location1 = "";
+                    var location2 = "";
+                    tasks.Add(Task.Factory.StartNew(() =>
+                    {
+                        var result = GetCanTakeitResult(item.info.startLat + "," + item.info.startLon, coors);
+                        isCan1 = result.result;
+                        location1 = result.location;
+                    }));
+                    tasks.Add(Task.Factory.StartNew(() =>
+                    {
+                        var result = GetCanTakeitResult(item.info.endLat + "," + item.info.endLon, coors);
+                        isCan2 = result.result;
+                        location2 = result.location;
+                    }));
+
+                    Task.WhenAll(tasks.ToArray()).Wait();
+
+                    var disInfo = GetDrivingInfo(new GetDrivingInfoResquest()
+                    {
+                        FromLocation = location1,
+                        ToLocation = location2
+                    });
+                    if (disInfo != null && disInfo.status == 0 && disInfo.result.routes != null && disInfo.result.routes.Count > 0)
+                    {
+                        dis = disInfo.result.routes.FirstOrDefault().distance;
+                    }
+                    isCan = isCan1 && isCan2;
+                }
+
+                if (isCan)
+                {
+                    response.OrderList.Add(new OrderListByDriver()
+                    {
+                        Id = item.info.id,
+                        SexType = Convert.ToInt32(item.info.sex),
+                        IsSingle = Convert.ToInt32(item.extension.isSingle),
+                        Date = item.info.startDateTime.ToString("yyyy-MM-dd HH:mm"),
+                        FromPlace = item.info.startPoint,
+                        Money = item.info.orderAmount,
+                        PeopleCount = item.info.passengerNum,
+                        ToPlace = item.info.endPoint,
+                        PhoneNumber = item.extension.phoneNumber,
+                        Name = item.extension.passengerName,
+                        Percent = (dis / item.info.distance).ToString("0.##"),
+                    });
+                }
             }
-            
 
+            response.StateCode = 200;
+            response.ResultMsg = "查询成功";
 
             return null;
-        }
+        }     
 
         /// <summary>
         /// 是否顺路(二分法计算)
         /// </summary>
         /// <param name="resquest"></param>
         /// <returns></returns>
-        public bool GetCanTakeitResult(string fromLocation, List<string> latlngBaseInfo)
+        public (bool result,string location) GetCanTakeitResult(string fromLocation, List<string> latlngBaseInfo)
         {
             int low = 0;
             int high = latlngBaseInfo.Count - 1;
             var disTemp = 1000000m;
+            var location = "";
             while (low <= high)
             {
                 int middle = (low + high) / 2;
@@ -328,8 +422,19 @@ namespace TCCarShare.Services
                 //最短的距离不可能是两端
                 var firstLocation = points[0].to.lat + "," + points[0].to.lng;
                 var secondLocation = points[1].to.lat + "," + points[1].to.lng;
-                if (firstLocation == latlngBaseInfo[low] || secondLocation == latlngBaseInfo[high])
+                if (firstLocation == latlngBaseInfo[low])
                 {
+                    location = firstLocation;
+                    break;//最短距离已找到，直接结束
+                }
+                else if (firstLocation == latlngBaseInfo[high])
+                {
+                    location = firstLocation;
+                    break;//最短距离已找到，直接结束
+                }
+                else if (firstLocation == latlngBaseInfo[middle] && high - middle == middle - low)
+                {
+                    location = firstLocation;
                     break;//最短距离已找到，直接结束
                 }
                 else if (secondLocation == latlngBaseInfo[low] && firstLocation == latlngBaseInfo[middle])
@@ -345,7 +450,7 @@ namespace TCCarShare.Services
             }
 
             //大于2.5公里都不符合
-            return disTemp > 2500;
+            return (disTemp > 2500, location);
         }
     }
 }

@@ -49,19 +49,15 @@ namespace TCCarShare.Controllers
             return JsonConvert.SerializeObject(result);
         }
 
-        [HttpPost("GetlatlngInfoList")]
-        public string GetlatlngInfoList()
+        /// <summary>
+        /// 司机选单列表
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpPost("GetOrderListByDriver")]
+        public string GetOrderListByDriver([FromBody]GetOrderListByDriverRequest request)
         {
-            var aaa = new List<double>() {                
-    31.252097,
-    120.730546,
-    159,
-    -89,
-    0,
-    0,
-    324,
-    903};
-            var result = new MapServices().GetlatlngInfoList(aaa);
+            var result = new MapServices().GetOrderListByDriver(request);
             return JsonConvert.SerializeObject(result);
         }
     }
