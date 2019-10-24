@@ -9,5 +9,7 @@ namespace TCCarShare.Entity.Request
     public class MyOrderListRequest
     {
         public string passengerId { get; set; }
+
+        public string status { get; set; } = "-1";
     }
 }

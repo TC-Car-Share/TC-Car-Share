@@ -66,6 +66,7 @@ namespace TCCarShare.Services
                 waitingOrder.info.startPoint = item.startPoint;
                 waitingOrder.info.passengerNum = item.passengerNum;
                 waitingOrder.info.orderAmount = item.orderAmount;
+                waitingOrder.info.distance = item.distance;
                 if (request.sex > -1 && waitingOrder.extension.sex.PackInt() != request.sex)
                 {
                     continue;

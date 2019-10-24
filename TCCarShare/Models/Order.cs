@@ -25,5 +25,7 @@ namespace TCCarShare.Models
         public DateTime startDateTime { get; set; }
         public decimal orderAmount { get; set; }
         public decimal similarity { get; set; }
+        public decimal distance { get; set; }
+        public int sex { get; set; }
     }
 }
