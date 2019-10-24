@@ -7,6 +7,7 @@ using TCCarShare.Models;
 using TCCarShare.Services;
 using Newtonsoft.Json;
 using TCCarShare.IServices;
+using TCCarShare.Entity.Response;
 
 namespace TCCarShare.Controllers
 {
@@ -23,8 +24,11 @@ namespace TCCarShare.Controllers
         [HttpGet("GetEmployeeById")]
         public string GetEmployeeById(int id)
         {
-            var result = _repository.GetById(id);
-            return JsonConvert.SerializeObject(result);
+            GetEmployeeByIdResponse res = new GetEmployeeByIdResponse();
+            res.StateCode = 200;
+            res.ResultMsg = "success";
+            res.Employee = _repository.GetById(id) ?? new Employee();
+            return JsonConvert.SerializeObject(res);
         }
 
         /// <summary>
@@ -34,8 +38,16 @@ namespace TCCarShare.Controllers
         [HttpGet("SwitchRole")]
         public string SwitchRole(int id,int role)
         {
+            CommonBaseInfo res = new CommonBaseInfo();
+            res.StateCode = 200;
+            res.ResultMsg = "success";
             var result = _repository.SwithRole(id, role);
-            return JsonConvert.SerializeObject( new { isSuccess = result });
+            if(result == false)
+            {
+                res.StateCode = 500;
+                res.ResultMsg = "error";
+            }
+            return JsonConvert.SerializeObject(res);
         }
     }
 }

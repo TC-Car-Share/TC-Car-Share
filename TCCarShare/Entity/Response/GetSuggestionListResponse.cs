@@ -75,12 +75,12 @@ namespace TCCarShare.Models.Response
         /// <summary>
         /// 纬度
         /// </summary>
-        public decimal lat { get; set; }
+        public double lat { get; set; }
 
         /// <summary>
         /// 经度
         /// </summary>
-        public decimal lng { get; set; }
+        public double lng { get; set; }
     }
 
     /// <summary>
@@ -143,11 +143,11 @@ namespace TCCarShare.Models.Response
         /// <summary>
         /// 纬度
         /// </summary>
-        public decimal Lat { get; set; }
+        public double Lat { get; set; }
 
         /// <summary>
         /// 经度
         /// </summary>
-        public decimal Lng { get; set; }
+        public double Lng { get; set; }
     }
 }
