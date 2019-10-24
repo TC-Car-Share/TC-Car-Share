@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TCCarShare.Entity.Response;
 using TCCarShare.IService;
 using TCCarShare.Models;
 
@@ -22,18 +23,26 @@ namespace TCCarShare.Controllers
         [HttpGet("GetLineListByEmpId")]
         public string GetLineListByEmpId(int empId)
         {
+            GetLineListByEmpIdResponse res = new GetLineListByEmpIdResponse();
             var result = _repository.GetLineListByEmpId(empId);
-            if(result != null){
-                return JsonConvert.SerializeObject(result);
+            res.LineList = new List<Line>();
+            res.StateCode = 200;
+            res.ResultMsg = "no data";
+            if (result != null){
+                res.LineList = result.ToList();            
+                res.ResultMsg = "success";                
             }
-            return JsonConvert.SerializeObject(new List<Line>());
+            return JsonConvert.SerializeObject(res);
         }
 
         [HttpPost("AddLine")]
         public string AddLine([FromBody] Line line)
-        {            
-            var result = _repository.Add(line);
-            return JsonConvert.SerializeObject(result);
+        {
+            AddLineResponse res = new AddLineResponse();
+            res.Line = _repository.Add(line);
+            res.StateCode = 200;
+            res.ResultMsg = "success";
+            return JsonConvert.SerializeObject(res);
         }
     }
 }
