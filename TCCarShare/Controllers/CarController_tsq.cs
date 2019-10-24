@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using TCCarShare.Data;
 using TCCarShare.Entity.Request;
 using TCCarShare.Models;
 using TCCarShare.Models.Request;
@@ -13,6 +14,12 @@ namespace TCCarShare.Controllers
 {
     public partial class CarController
     {
+        private readonly DataContext _context;
+
+        public CarController(DataContext context)
+        {
+            _context = context;
+        }
         /// <summary>
         /// 关键词输入提示
         /// </summary>
@@ -21,7 +28,7 @@ namespace TCCarShare.Controllers
         [HttpPost("GetSuggestionList")]
         public string GetSuggestionList([FromBody]GetSuggestionListRequest request)
         {
-            var result = new MapServices().GetSuggestionList(request);
+            var result = new MapServices(_context).GetSuggestionList(request);
             return JsonConvert.SerializeObject(result);
         }
 
@@ -33,7 +40,7 @@ namespace TCCarShare.Controllers
         [HttpPost("GetAddressBylnglat")]
         public string GetAddressBylnglat([FromBody]GeocoderRequest request)
         {
-            var result = new MapServices().GetAddressBylnglat(request);
+            var result = new MapServices(_context).GetAddressBylnglat(request);
             return JsonConvert.SerializeObject(result);
         }
 
@@ -45,7 +52,7 @@ namespace TCCarShare.Controllers
         [HttpPost("GetMoneyNumber")]
         public string GetMoneyNumber([FromBody]GetMoneyNumberResquest request)
         {
-            var result = new MapServices().GetMoneyNumber(request);
+            var result = new MapServices(_context).GetMoneyNumber(request);
             return JsonConvert.SerializeObject(result);
         }
 
@@ -57,7 +64,7 @@ namespace TCCarShare.Controllers
         [HttpPost("GetOrderListByDriver")]
         public string GetOrderListByDriver([FromBody]GetOrderListByDriverRequest request)
         {
-            var result = new MapServices().GetOrderListByDriver(request);
+            var result = new MapServices(_context).GetOrderListByDriver(request);
             return JsonConvert.SerializeObject(result);
         }
     }

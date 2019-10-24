@@ -43,7 +43,7 @@ namespace TCCarShare.Controllers
             }
             var startLocation = request.startLat.ToString() + "," + request.startLon.ToString();
             var endLocation = request.endLat.ToString() + "," + request.endLon.ToString();
-            var driveInfo = new MapServices().GetDrivingInfo(new GetDrivingInfoResquest {
+            var driveInfo = new MapServices(_context).GetDrivingInfo(new GetDrivingInfoResquest {
                 FromLocation = startLocation,
                 ToLocation = endLocation
             });

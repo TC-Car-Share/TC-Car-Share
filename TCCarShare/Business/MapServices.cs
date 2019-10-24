@@ -17,7 +17,11 @@ namespace TCCarShare.Services
     public class MapServices
     {
         private const string key = "H4RBZ-BEBEU-GDFV7-BLILH-LT4EJ-XWFFP";
-        private readonly DataContext _dataContext;
+        private readonly DataContext _context;
+        public MapServices(DataContext context)
+        {
+            _context = context;
+        }
         /// <summary>
         /// 关键词输入提示
         /// </summary>
@@ -241,7 +245,7 @@ namespace TCCarShare.Services
             }
 
             //获取所有的符合条件的订单
-            var orderList = new OrderServices(_dataContext).GetAllWaiting(new WaitingOrderRequest()
+            var orderList = new OrderServices(_context).GetAllWaiting(new WaitingOrderRequest()
             {
                 sex=request.SexType,
                 startDate=request.Date,
