@@ -27,3 +27,7 @@ TCCarShare/obj/Debug/netcoreapp2.1/TCCarShare.pdb
 TCCarShare/obj/project.assets.json
 TCCarShare/obj/TCCarShare.csproj.nuget.cache
 TCCarShare/obj/TCCarShare.csproj.nuget.g.props
+.vs/TCCarShare/v15/Server/sqlite3/storage.ide-wal
+.vs/TCCarShare/v15/Server/sqlite3/storage.ide-shm
+.vs/TCCarShare/v15/Server/sqlite3/storage.ide
+.vs/TCCarShare/v15/Server/sqlite3/db.lock
