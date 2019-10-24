@@ -35,7 +35,7 @@ namespace TCCarShare.Controllers
         public string SwitchRole(int id,int role)
         {
             var result = _repository.SwithRole(id, role);
-            return JsonConvert.SerializeObject(result);
+            return JsonConvert.SerializeObject( new { isSuccess = result });
         }
     }
 }

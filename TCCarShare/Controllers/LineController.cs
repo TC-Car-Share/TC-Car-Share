@@ -30,7 +30,7 @@ namespace TCCarShare.Controllers
         }
 
         [HttpPost("AddLine")]
-        public string AddLine(Line line)
+        public string AddLine([FromBody] Line line)
         {            
             var result = _repository.Add(line);
             return JsonConvert.SerializeObject(result);
