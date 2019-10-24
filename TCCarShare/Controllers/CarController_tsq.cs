@@ -61,7 +61,7 @@ namespace TCCarShare.Controllers
     0,
     324,
     903};
-            var result = new MapServices().GetCanTakeitResult(aaa);
+            var result = new MapServices().GetlatlngInfoList(aaa);
             return JsonConvert.SerializeObject(result);
         }
     }
