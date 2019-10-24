@@ -353,7 +353,8 @@ namespace TCCarShare.Services
 
                 if (isCan)
                 {
-                    response.OrderList.Add(new OrderListByDriver() {
+                    response.OrderList.Add(new OrderListByDriver()
+                    {
                         Id = item.info.id,
                         SexType = Convert.ToInt32(item.info.sex),
                         IsSingle = Convert.ToInt32(item.extension.isSingle),
@@ -362,8 +363,8 @@ namespace TCCarShare.Services
                         Money = item.info.orderAmount,
                         PeopleCount = item.info.passengerNum,
                         ToPlace = item.info.endPoint,
-                        //PhoneNumber = item.info,
-                        //Name =,
+                        PhoneNumber = item.extension.phoneNumber,
+                        Name = item.extension.passengerName,
                         Percent = (dis / item.info.distance).ToString("0.##"),
                     });
                 }
