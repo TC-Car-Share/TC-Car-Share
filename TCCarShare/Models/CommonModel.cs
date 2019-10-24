@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace TCCarShare.Models
 {
+    /// <summary>
+    /// 基础实体
+    /// </summary>
     public class CommonBaseInfo
     {
         /// <summary>
