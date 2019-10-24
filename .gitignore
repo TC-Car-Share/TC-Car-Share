@@ -99,3 +99,5 @@ TCCarShare/Properties/launchSettings.json
 /.vs/TCCarShare/v16/.suo
 /.vs/TCCarShare/v16/Server/sqlite3/storage.ide
 /.vs/TCCarShare/v16/Server/sqlite3/storage.ide-wal
+.vs/
+TCCarShare/obj/Debug/

@@ -14,6 +14,9 @@ namespace TCCarShare.Models
         public double startLat { get; set; }
         public double endLon { get; set; }
         public double endLat { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
         public int status { get; set; }
         public DateTime createTime { get; set; }
         public string startPoint { get; set; }

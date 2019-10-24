@@ -74,7 +74,7 @@ namespace TCCarShare.Services
                 {
                     continue;
                 }
-                if (request.sex > -1 && waitingOrder.extension.sex.PackInt() != request.sex)
+                if (request.startDate != "" && waitingOrder.info.startDateTime.ToShortDateString() != request.startDate)
                 {
                     continue;
                 }

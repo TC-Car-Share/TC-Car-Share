@@ -36,10 +36,10 @@ namespace TCCarShare
                 options.UseMySQL(Configuration.GetConnectionString("DefaultConnection"));
             });
             services.AddScoped<CarServices>();
-            services.AddScoped<IServices<Car>, CarServices>();
+            services.AddScoped<OrderServices>();
             services.AddScoped<IEmployeeService<Employee>, EmployeeService>();
             services.AddScoped<ILineService<Line>, LineService>();
-            services.AddScoped<ILineService<Line>, LineService>();
+            
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

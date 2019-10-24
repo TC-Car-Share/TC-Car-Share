@@ -11,13 +11,14 @@ using TCCarShare.Models;
 using TCCarShare.Services;
 using Microsoft.EntityFrameworkCore;
 using TCCarShare.Entity.Response;
+using TCCarShare.IServices;
 
 namespace TCCarShare.Controllers
 {
     [Route("[controller]")]
     public class OrderController : Controller
     {
-        private readonly OrderServices _services;
+        private readonly IServices<Order> _services;
         private readonly DataContext _context;
 
         public OrderController(OrderServices services, DataContext context)
@@ -27,7 +28,7 @@ namespace TCCarShare.Controllers
         }
 
         [HttpPost("AddOrder")]
-        public ActionResult<string> AddOrder(AddOrderRequest request)
+        public ActionResult<string> AddOrder([FromBody]AddOrderRequest request)
         {
             var resp = new CommonBaseInfo();
             #region 参数验证
@@ -61,24 +62,28 @@ namespace TCCarShare.Controllers
         }
 
         [HttpPost("EditOrderStatus")]
-        public ActionResult<string> EditOrderStatus(EditOrderRequest request)
+        public ActionResult<string> EditOrderStatus([FromBody]EditOrderRequest request)
         {
             var resp = new CommonBaseInfo();
             #region 参数验证
             #endregion
-            
-            var order = _context.Order.Where(m=>m.id = request.id.PackInt())
-            {
-                id = request.id.PackInt(),
-                driverId = request.driverId.PackInt(),
-                status = request.status.PackInt()
-            };
+
+            var id = request.id.PackInt();
+            var order = _context.Order.Where(m => m.id == id).FirstOrDefault();
+
+            order.id = request.id.PackInt();
+            order.driverId = request.driverId.PackInt();
+            order.status = request.status.PackInt();
 
             var entry = _context.Entry(order);
             entry.State = EntityState.Unchanged;
             if (order.driverId > 0)
             {
-                if(new OrderServices().GetAllPassengerNum(order.driverId) + )
+                if (new OrderServices(_context).GetAllPassengerNum(order.driverId) + order.passengerNum > 3)
+                {
+                    resp.ResultMsg = "您超过最大载客数，无法接单";
+                    resp.StateCode = 200;
+                }
                 entry.Property("driverId").IsModified = true;
             }
             entry.Property("status").IsModified = true;
@@ -97,7 +102,7 @@ namespace TCCarShare.Controllers
         }
 
         [HttpPost("MyOrderList")]
-        public ActionResult<MyOrderListResponse> MyOrderList(MyOrderListRequest request)
+        public ActionResult<MyOrderListResponse> MyOrderList([FromBody]MyOrderListRequest request)
         {
             var resp = new MyOrderListResponse();
             #region 参数验证
@@ -129,6 +134,8 @@ namespace TCCarShare.Controllers
                 orderDetail.orderAmount = item.orderAmount.ToString();
                 resp.list.Add(orderDetail);
             }
+            resp.StateCode = 200;
+            resp.ResultMsg = "获取成功";
             return resp;
         }
     }
