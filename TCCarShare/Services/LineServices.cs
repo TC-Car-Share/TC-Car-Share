@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace TCCarShare.Services
 {
-    public class MapServices
+    public class LineServices
     {
     }
 }
