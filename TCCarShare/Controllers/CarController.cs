@@ -22,9 +22,8 @@ namespace TCCarShare.Controllers
         [HttpPost("GetCarInfo")]
         public string GetCarInfo()
         {
-            var result = new Car { id = 1, carNo = "3123213" };
+            var result = _repository.GetById(1);
             return JsonConvert.SerializeObject(result);
-            
         }
     }
 }

@@ -7,23 +7,23 @@ using TCCarShare.Models;
 
 namespace TCCarShare.Services
 {
-    public class EFCoreServices : IServices<Car>
+    public class CarServices : IServices<Car>
     {
         private readonly DataContext _context;
 
-        public EFCoreServices(DataContext context)
+        public CarServices(DataContext context)
         {
             _context = context;
         }
 
         public IEnumerable<Car> GetAll()
         {
-            return _context.Students.ToList();
+            return _context.Car.ToList();
         }
 
         public Car GetById(int id)
         {
-            return _context.Students.Find(id);
+            return _context.Car.Find(id);
         }
 
         public Car Add(Car newModel)
