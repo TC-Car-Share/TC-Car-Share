@@ -14,6 +14,7 @@ namespace TCCarShare.Data
 
         }
 
-        public DbSet<car> Car { get; set; }
+        public DbSet<Car> Car { get; set; }
+
     }
 }
