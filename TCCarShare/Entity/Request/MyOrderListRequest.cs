@@ -10,6 +10,8 @@ namespace TCCarShare.Entity.Request
     {
         public string passengerId { get; set; }
 
+        public string driverId { get; set; }
+
         public string status { get; set; } = "-1";
     }
 }

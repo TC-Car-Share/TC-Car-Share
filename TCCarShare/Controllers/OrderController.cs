@@ -110,7 +110,24 @@ namespace TCCarShare.Controllers
             #region 参数验证
             #endregion
             var passengerId = request.passengerId.PackInt();
-            List<Order> orders = _context.Order.Where(m => m.passengerId == passengerId).ToList();
+            var driverId = request.driverId.PackInt();
+            List<Order> orders = new List<Order>();
+            if (passengerId > 0)
+            {
+                orders = _context.Order.Where(m => m.passengerId == passengerId).ToList();
+            }
+            else if (driverId > 0)
+            {
+                orders = _context.Order.Where(m => m.driverId == driverId).ToList();
+            }
+
+            if (orders == null || orders.Count == 0)
+            {
+                resp.StateCode = 400;
+                resp.ResultMsg = "未获取到对应订单信息";
+                return resp;
+            }
+
             if (request.status != "-1")
             {
                 var status = request.PackInt();
