@@ -13,9 +13,9 @@ namespace TCCarShare.Models
 
         public int empId { get; set; }
 
-       public string lon { get; set; }
+       public string origin { get; set; }
 
-       public string lat { get; set; }
+       public string destination { get; set; }
 
        public string publishTime { get; set; }     
 

@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TCCarShare.Data;
+using TCCarShare.IService;
 using TCCarShare.IServices;
 using TCCarShare.Models;
 
 namespace TCCarShare.Services
 {
-    public class LineService : IServices<Line>
+    public class LineService : ILineService<Line>
     {
         private readonly DataContext _context;
 
@@ -19,7 +20,9 @@ namespace TCCarShare.Services
 
         public Line Add(Line newModel)
         {
-            throw new NotImplementedException();
+            _context.Line.Add(newModel);
+            _context.SaveChanges();
+            return newModel;
         }
 
         public IEnumerable<Line> GetAll()
@@ -29,7 +32,12 @@ namespace TCCarShare.Services
 
         public Line GetById(int id)
         {
-            throw new NotImplementedException();
+            return _context.Line.Find(id);
+        }
+
+        public IEnumerable<Line> GetLineListByEmpId(int empId)
+        {
+            return _context.Line.Where(l => l.empId == empId);
         }
     }
 }

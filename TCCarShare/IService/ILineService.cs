@@ -8,6 +8,6 @@ namespace TCCarShare.IService
 {
     public interface ILineService<T> : IServices<T> where T : class
     {
-
+        IEnumerable<T> GetLineListByEmpId(int empId);
     }
 }
