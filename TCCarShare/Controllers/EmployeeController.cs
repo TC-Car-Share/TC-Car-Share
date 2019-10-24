@@ -6,15 +6,16 @@ using Microsoft.AspNetCore.Mvc;
 using TCCarShare.Models;
 using TCCarShare.Services;
 using Newtonsoft.Json;
+using TCCarShare.IServices;
 
 namespace TCCarShare.Controllers
 {
     [Route("[controller]")]
     public class EmployeeController
     {
-        private readonly IServices<Employee> _repository;
+        private readonly IEmployeeService<Employee> _repository;
 
-        public EmployeeController(IServices<Employee> repository)
+        public EmployeeController(IEmployeeService<Employee> repository)
         {
             _repository = repository;
         }
@@ -24,7 +25,17 @@ namespace TCCarShare.Controllers
         {
             var result = _repository.GetById(id);
             return JsonConvert.SerializeObject(result);
+        }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("SwitchRole")]
+        public string SwitchRole(int id,int role)
+        {
+            var result = _repository.SwithRole(id, role);
+            return JsonConvert.SerializeObject(result);
         }
     }
 }
