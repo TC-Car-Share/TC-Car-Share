@@ -223,24 +223,24 @@ namespace TCCarShare.Services
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public GetOrderListByDriverResponse GetOrderListByDriver(GetOrderListByDriverRequest request)
-        {
-            var response = new GetOrderListByDriverResponse()
-            {
-                StateCode = 201,
-                ResultMsg = "查无数据"
-            };
-            if (request == null || request.FromLat == null || request.FromLat == "" || request.FromLng == "" || request.FromLng == null
-                || request.ToLat == null || request.ToLat == "" || request.ToLng == "" || request.ToLng == null || request.Date == null || request.Date == "")
-            {
-                response.ResultMsg = "请求参数异常，请稍后重试";
-                return response;
-            }
+        //public GetOrderListByDriverResponse GetOrderListByDriver(GetOrderListByDriverRequest request)
+        //{
+        //    var response = new GetOrderListByDriverResponse()
+        //    {
+        //        StateCode = 201,
+        //        ResultMsg = "查无数据"
+        //    };
+        //    if (request == null || request.FromLat == null || request.FromLat == "" || request.FromLng == "" || request.FromLng == null
+        //        || request.ToLat == null || request.ToLat == "" || request.ToLng == "" || request.ToLng == null || request.Date == null || request.Date == "")
+        //    {
+        //        response.ResultMsg = "请求参数异常，请稍后重试";
+        //        return response;
+        //    }
 
 
 
-            return null;
-        }
+        //    return null;
+        //}
 
         /// <summary>
         /// 是否顺路(二分法计算)
