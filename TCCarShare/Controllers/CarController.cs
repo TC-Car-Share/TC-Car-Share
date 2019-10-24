@@ -12,9 +12,9 @@ namespace TCCarShare.Controllers
     [Route("[controller]")]
     public partial class CarController : Controller
     {
-        private readonly IServices<Car> _repository;
+        private readonly IServices<car> _repository;
 
-        public CarController(IServices<Car> repository)
+        public CarController(IServices<car> repository)
         {
             _repository = repository;
         }
@@ -22,7 +22,7 @@ namespace TCCarShare.Controllers
         [HttpPost("GetCarInfo")]
         public string GetCarInfo()
         {
-            var result = new Car { id = 1, carNo = "3123213" };
+            var result = _repository.GetById(1);
             return JsonConvert.SerializeObject(result);
             
         }

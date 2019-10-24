@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace TCCarShare.Models
 {
-    public class Car
+    public class car
     {
         public int id { get; set; }
         public string carNo { get; set; }
