@@ -8,22 +8,22 @@ namespace TCCarShare.Entity.Response
 {
     public class MyOrderListResponse : CommonBaseInfo
     {
-        public List<OrderDetail> list { get; set; }
+        public List<OrderDetail> list { get; set; } = new List<OrderDetail>();
     }
     public class OrderDetail
     {
-        public string id { get; set; }
-        public string driverId { get; set; }
-        public string status { get; set; }
-        public string startPoint { get; set; }
-        public string endPoint { get; set; }
-        public string passengerNum { get; set; }
-        public string startDateTime { get; set; }
-        public string sex { get; set; }
-        public string isSingle { get; set; }
-        public string carBrand { get; set; }
-        public string orderNum { get; set; }
-        public string rate { get; set; }
-        public string orderAmount { get; set; }
+        public string id { get; set; } = string.Empty;
+        public string driverId { get; set; } = string.Empty;
+        public string status { get; set; } = string.Empty;
+        public string startPoint { get; set; } = string.Empty;
+        public string endPoint { get; set; } = string.Empty;
+        public string passengerNum { get; set; } = string.Empty;
+        public string startDateTime { get; set; } = string.Empty;
+        public string sex { get; set; } = string.Empty;
+        public string isSingle { get; set; } = string.Empty;
+        public string carBrand { get; set; } = string.Empty;
+        public string orderNum { get; set; } = string.Empty;
+        public string rate { get; set; } = string.Empty;
+        public string orderAmount { get; set; } = string.Empty;
     }
 }

@@ -15,7 +15,10 @@ namespace TCCarShare.ViewModels
 
     public class ExtensionInfo
     {
-        public string sex { get; set; }
         public string isSingle { get; set; }
+
+        public string passengerName { get; set; }
+
+        public string phoneNumber { get; set; }
     }
 }

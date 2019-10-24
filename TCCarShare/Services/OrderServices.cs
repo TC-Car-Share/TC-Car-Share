@@ -58,8 +58,9 @@ namespace TCCarShare.Services
                     Employee employee = _context.Employee.Find(item.passengerId);
                     if (employee != null)
                     {
-                        waitingOrder.extension.sex = employee.sex.ToString();
-                        waitingOrder.extension.isSingle = new Random().Next(0, 1) > 0.5 ? "0" : "1";
+                        waitingOrder.extension.isSingle = employee.isSingle.ToString();
+                        waitingOrder.extension.passengerName = employee.name;
+                        waitingOrder.extension.phoneNumber = employee.mobile;
                     }
                 }
                 waitingOrder.info.startDateTime = item.startDateTime;
@@ -67,7 +68,8 @@ namespace TCCarShare.Services
                 waitingOrder.info.passengerNum = item.passengerNum;
                 waitingOrder.info.orderAmount = item.orderAmount;
                 waitingOrder.info.distance = item.distance;
-                if (request.sex > -1 && waitingOrder.extension.sex.PackInt() != request.sex)
+                waitingOrder.info.sex = item.sex;
+                if (request.sex > -1 && waitingOrder.info.sex.PackInt() != request.sex)
                 {
                     continue;
                 }

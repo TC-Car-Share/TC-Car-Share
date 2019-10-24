@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TCCarShare.Models;
 
-namespace TCCarShare.Entity.Response
+namespace TCCarShare.Entity.Request
 {
-    public class GetLineListByEmpIdResponse : CommonBaseInfo
+    public class AddLineRequest
     {
         public string origin { get; set; }
 
@@ -22,6 +21,5 @@ namespace TCCarShare.Entity.Response
 
         public int empId { get; set; }
 
-        public List<Line> LineList { get; set; }
     }
 }
