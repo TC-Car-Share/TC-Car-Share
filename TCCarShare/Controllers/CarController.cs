@@ -10,6 +10,7 @@ using TCCarShare.Entity.Response;
 using TCCarShare.Models;
 using TCCarShare.Services;
 using TC.ZBY.FrameworkCore.Utility;
+using TCCarShare.Data;
 
 namespace TCCarShare.Controllers
 {
@@ -17,10 +18,12 @@ namespace TCCarShare.Controllers
     public partial class CarController : Controller
     {
         private readonly CarServices _repository;
+        private readonly DataContext _context;
 
-        public CarController(CarServices repository)
+        public CarController(CarServices repository, DataContext context)
         {
             _repository = repository;
+            _context = context;
         }
 
         [HttpGet("GetCarInfoByEmpId")]

@@ -12,14 +12,8 @@ using TCCarShare.Services;
 
 namespace TCCarShare.Controllers
 {
-    public partial class CarController
+    public partial class CarController: Controller
     {
-        private readonly DataContext _context;
-
-        public CarController(DataContext context)
-        {
-            _context = context;
-        }
         /// <summary>
         /// 关键词输入提示
         /// </summary>
