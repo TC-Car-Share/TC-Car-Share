@@ -7,6 +7,6 @@ namespace TCCarShare.Models.Response
 {
     public class GetSuggestionListResponse : CommonBaseInfo
     {
-        public  status
+        
     }
 }
