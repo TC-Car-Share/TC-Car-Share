@@ -27,6 +27,11 @@ namespace TCCarShare.Services
             return _context.Car.Find(id);
         }
 
+        public Car GetByEmpId(int empId)
+        {
+            return _context.Car.FirstOrDefault(c=>c.carMasterId == empId);
+        }
+
         public Car Add(Car newModel)
         {
             _context.Add(newModel);

@@ -23,6 +23,21 @@ namespace TCCarShare.Controllers
             _repository = repository;
         }
 
+        [HttpGet("GetCarInfoByEmpId")]
+        public string GetCarInfoByEmpId(int empId)
+        {
+            GetCarInfoByEmpIdResponse res = new GetCarInfoByEmpIdResponse();
+            res.ResultMsg = "success";
+            res.StateCode = 200;
+            res.Car = _repository.GetByEmpId(empId) ?? new Car();
+            if(res.Car == null || res.Car.id<=0)
+            {
+                res.ResultMsg = "no data";
+                res.StateCode = 200;                
+            }
+            return JsonConvert.SerializeObject(res);
+        }
+
         [HttpPost("EditCarInfo")]
         public string EditCarInfo([FromBody]EditCarInfoRequest request)
         {
