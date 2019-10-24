@@ -4,4 +4,5 @@ TCCarShare/obj/Debug/
 TCCarShare/bin/Debug/netcoreapp2.1
 TCCarShare/bin/Debug/netcoreapp2.1/
 *.lock
+TCCarShare/TCCarShare.csproj
 TCCarShare/bin/Debug/netcoreapp2.1/Properties/launchSettings.json
