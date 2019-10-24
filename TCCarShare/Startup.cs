@@ -34,6 +34,7 @@ namespace TCCarShare
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
             services.AddScoped<IServices<Car>, EFCoreServices>();
+            services.AddScoped<IServices<Employee>, EmployeeService>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
