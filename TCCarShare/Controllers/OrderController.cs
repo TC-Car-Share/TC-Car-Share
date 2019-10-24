@@ -33,6 +33,14 @@ namespace TCCarShare.Controllers
             var resp = new CommonBaseInfo();
             #region 参数验证
             #endregion
+            var passengerId = request.passengerId.PackInt();
+            var count = _context.Order.Where(m => m.startDateTime == request.startDateTime.PackDateTime()).Where(m => m.passengerId == passengerId).ToList().Count;
+            if (count > 0)
+            {
+                resp.ResultMsg = "您已提交过相同订单，请勿重复提交";
+                resp.StateCode = 400;
+                return JsonConvert.SerializeObject(resp);
+            }
             var startLocation = request.startLat.ToString() + "," + request.startLon.ToString();
             var endLocation = request.endLat.ToString() + "," + request.endLon.ToString();
             var driveInfo = new MapServices().GetDrivingInfo(new GetDrivingInfoResquest {
