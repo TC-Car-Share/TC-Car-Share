@@ -67,6 +67,10 @@
             "MySql.Data.EntityFrameworkCore": {
               "target": "Package",
               "version": "[8.0.18, )"
+            },
+            "TC.ZBY.FrameworkCore.Utility": {
+              "target": "Package",
+              "version": "[1.0.8.9, )"
             }
           },
           "imports": [

@@ -32,5 +32,12 @@ namespace TCCarShare.Services
             _context.SaveChanges();
             return newModel;
         }
+
+        public bool Edit(Car model)
+        {
+            _context.Update(model);
+            var update = _context.SaveChanges() > 0;
+            return update;
+        }
     }
 }

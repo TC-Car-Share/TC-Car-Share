@@ -33,7 +33,7 @@ namespace TCCarShare
             {
                 options.UseMySQL(Configuration.GetConnectionString("DefaultConnection"));
             });
-            services.AddScoped<IServices<Car>, CarServices>();
+            services.AddScoped<CarServices>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 

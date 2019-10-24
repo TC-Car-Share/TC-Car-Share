@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TCCarShare.Models;
 
-namespace TCCarShare.Models.Response
+namespace TCCarShare.Entity.Response
 {
-    public class GetSuggestionListResponse : CommonBaseInfo
+    public class EditCarInfoResponse: CommonBaseInfo
     {
 
     }
