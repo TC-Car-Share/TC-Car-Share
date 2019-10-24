@@ -48,7 +48,11 @@ namespace TCCarShare.Services
         public List<WaitingOrder> GetAllWaiting(WaitingOrderRequest request)
         {
             var resp = new List<WaitingOrder>();
-            List<Order> orders = _context.Order.Where(m => m.status == 0).ToList();
+            List<Order> orders = _context.Order.Where(m => m.status == 0)?.ToList();
+            if (orders == null || orders.Count == 0)
+            {
+                return null;
+            }
             
             foreach (var item in orders)
             {

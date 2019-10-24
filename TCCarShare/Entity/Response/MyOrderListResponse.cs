@@ -25,5 +25,10 @@ namespace TCCarShare.Entity.Response
         public string orderNum { get; set; } = string.Empty;
         public string rate { get; set; } = string.Empty;
         public string orderAmount { get; set; } = string.Empty;
+        public string passengerName { get; set; } = string.Empty;
+        public string passengerEmployRole { get; set; } = string.Empty;
+        public string driverName { get; set; } = string.Empty;
+        public string driverEmployRole { get; set; } = string.Empty;
+
     }
 }

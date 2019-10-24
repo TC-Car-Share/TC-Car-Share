@@ -144,6 +144,19 @@ namespace TCCarShare.Controllers
             foreach (var item in orders)
             {
                 var orderDetail = new OrderDetail();
+                if (request.driverId.PackInt() > 0)
+                {
+                    Employee employee = _context.Employee.Find(item.passengerId);
+                    orderDetail.passengerName = employee.name;
+                    orderDetail.passengerEmployRole = employee.empRole.ToString();
+                }
+                else
+                {
+                    Employee employee = _context.Employee.Find(item.driverId);
+                    orderDetail.driverName = employee.name;
+                    orderDetail.driverEmployRole = employee.empRole.ToString();
+                }
+
                 if (item.driverId > 0)
                 {
                     Employee employee = _context.Employee.Find(item.driverId);
@@ -152,11 +165,22 @@ namespace TCCarShare.Controllers
                         orderDetail.sex = employee.sex.ToString();
                         orderDetail.orderNum = new Random(1).Next(5, 30).ToString();
                         orderDetail.rate = (new Random().NextDouble() * 5).ToString();
+                        
                     }
                     Car car = _context.Car.Where(m => m.carMasterId == item.driverId).FirstOrDefault();
                     if (car != null)
                     {
                         orderDetail.carBrand = car.carBrand;
+                    }
+                }
+                else
+                {
+                    Employee employee = _context.Employee.Find(item.driverId);
+                    if (employee != null)
+                    {
+                        orderDetail.sex = employee.sex.ToString();
+                        orderDetail.orderNum = new Random(1).Next(5, 30).ToString();
+                        orderDetail.rate = (new Random().NextDouble() * 5).ToString();
                     }
                 }
                 orderDetail.status = item.status.ToString();
