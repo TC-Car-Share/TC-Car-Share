@@ -19,8 +19,10 @@ namespace TCCarShare.Models
 
        public string publishTime { get; set; }     
 
-       public int takeNum { get; set; }
-
        public string takeTime { get; set; }
+
+       public string startPoint { get; set; }
+
+       public string endPoint { get; set; }
     }
 }

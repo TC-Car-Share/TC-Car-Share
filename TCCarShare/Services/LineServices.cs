@@ -25,6 +25,22 @@ namespace TCCarShare.Services
             return newModel;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="empId"></param>
+        /// <returns></returns>
+        public bool DeleteLineByEmpId(int empId)
+        {
+            var list = _context.Line.Where(p => p.empId == empId);
+            if(list != null)
+            {
+                _context.RemoveRange(list);              
+            }          
+            return _context.SaveChanges() > 0;
+
+        }
+
         public IEnumerable<Line> GetAll()
         {
             throw new NotImplementedException();
@@ -39,5 +55,6 @@ namespace TCCarShare.Services
         {
             return _context.Line.Where(l => l.empId == empId);
         }
+
     }
 }
