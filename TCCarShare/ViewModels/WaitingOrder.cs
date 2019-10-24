@@ -8,9 +8,9 @@ namespace TCCarShare.ViewModels
 {
     public class WaitingOrder
     {
-        public Order info { get; set; }
+        public Order info { get; set; } = new Order();
 
-        public ExtensionInfo extension { get; set; }
+        public ExtensionInfo extension { get; set; } = new ExtensionInfo();
     }
 
     public class ExtensionInfo
