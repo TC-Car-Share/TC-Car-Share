@@ -139,7 +139,8 @@ namespace TCCarShare.Services
         /// <returns></returns>
         public GetMoneyNumberResponse GetMoneyNumber(GetMoneyNumberResquest request)
         {
-            var response = new GetMoneyNumberResponse() {
+            var response = new GetMoneyNumberResponse()
+            {
                 StateCode = 201,
                 ResultMsg = "查无数据"
             };
@@ -195,6 +196,83 @@ namespace TCCarShare.Services
             return result;
         }
 
+        /// <summary>
+        /// 路线信息解压
+        /// </summary>
+        /// <param name="coors"></param>
+        /// <returns></returns>
+        public List<string> GetlatlngInfoList(List<double> latlngBaseInfo)
+        {
+            var latlngInfoList = new List<string>();
+            latlngInfoList.Add($"{latlngBaseInfo[0]},{latlngBaseInfo[1]}");
+            var coors = latlngBaseInfo;
+            for (var i = 2; i < coors.Count; i++)
+            {
+                coors[i] = coors[i - 2] + coors[i] / 1000000;
+                if (i % 2 == 1)
+                {
+                    latlngInfoList.Add($"{latlngBaseInfo[i - 1]},{latlngBaseInfo[i]}");
+                }
+            };
+            //有很多重复的点，节约时间
+            return latlngInfoList.Distinct().ToList();
+        }
 
+        /// <summary>
+        /// 司机获取订单列表
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public GetOrderListByDriverResponse GetOrderListByDriver(GetOrderListByDriverRequest request)
+        {
+            var response = new GetOrderListByDriverResponse()
+            {
+                StateCode = 201,
+                ResultMsg = "查无数据"
+            };
+            if (request == null || request.FromLat == null || request.FromLat == "" || request.FromLng == "" || request.FromLng == null
+                || request.ToLat == null || request.ToLat == "" || request.ToLng == "" || request.ToLng == null || request.Date == null || request.Date == "")
+            {
+                response.ResultMsg = "请求参数异常，请稍后重试";
+                return response;
+            }
+
+
+
+            return null;
+        }
+
+        /// <summary>
+        /// 是否顺路(二分法计算)
+        /// </summary>
+        /// <param name="resquest"></param>
+        /// <returns></returns>
+        public bool GetCanTakeitResult(string fromLocation, List<string> latlngBaseInfo)
+        {
+            int low = 0;
+            int high = latlngBaseInfo.Count - 1;
+            while (low <= high)
+            {
+                int middle = (low + high) / 2;
+                //距离计算一对多
+                var toLoncation = latlngBaseInfo[low] + ";" + latlngBaseInfo[middle] + ";" + latlngBaseInfo[high];
+                var url = $"https://apis.map.qq.com/ws/distance/v1/?mode=driving&from={fromLocation}&to={toLoncation}&key={key}";
+                
+
+                //if (value == arr[middle])
+                //{
+                //    return middle;//如果找到了就直接返回这个元素的索引
+                //}
+                //else if (value > arr[middle])
+                //{
+                //    low = middle + 1;
+                //}
+                //else
+                //{
+                //    high = middle - 1;
+                //}
+            }
+            return false;
+        }
     }
 }

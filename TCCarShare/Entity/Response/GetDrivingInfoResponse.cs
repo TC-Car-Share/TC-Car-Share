@@ -55,7 +55,7 @@ namespace TCCarShare.Entity.Response
         /// <summary>
         /// 方案路线坐标点串（该点串经过压缩，解压请参考：polyline 坐标解压）
         /// </summary>
-        public List<decimal> polyline { get; set; }
+        public List<double> polyline { get; set; }
     }
 
     /// <summary>
