@@ -36,5 +36,17 @@ namespace TCCarShare.Controllers
             var result = new MapServices().GetAddressBylnglat(request);
             return JsonConvert.SerializeObject(result);
         }
+
+        /// <summary>
+        /// 获取路线金额
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpPost("GetMoneyNumber")]
+        public string GetMoneyNumber([FromBody]GetMoneyNumberResquest request)
+        {
+            var result = new MapServices().GetMoneyNumber(request);
+            return JsonConvert.SerializeObject(result);
+        }
     }
 }

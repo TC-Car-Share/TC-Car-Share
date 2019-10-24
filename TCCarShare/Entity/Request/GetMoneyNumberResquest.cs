@@ -10,6 +10,14 @@ namespace TCCarShare.Entity.Request
     /// </summary>
     public class GetMoneyNumberResquest
     {
-        //public string from { }
+        /// <summary>
+        /// 起点经纬度
+        /// </summary>
+        public string FromLocation { get; set; }
+
+        /// <summary>
+        /// 目的地经纬度
+        /// </summary>
+        public string ToLocation { get; set; }
     }
 }

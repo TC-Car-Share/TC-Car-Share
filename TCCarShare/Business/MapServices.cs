@@ -132,14 +132,42 @@ namespace TCCarShare.Services
             return response;
         }
 
+        /// <summary>
+        /// 获取路线金额
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         public GetMoneyNumberResponse GetMoneyNumber(GetMoneyNumberResquest request)
         {
-            return null;
+            var response = new GetMoneyNumberResponse() {
+                StateCode = 201,
+                ResultMsg = "查无数据"
+            };
+            if (request == null || request.FromLocation == null || request.FromLocation == "" || request.ToLocation == null || request.ToLocation == "")
+            {
+                response.ResultMsg = "请求参数异常，请稍后重试";
+                return response;
+            }
+            var param = new GetDrivingInfoResquest()
+            {
+                FromLocation = request.FromLocation,
+                ToLocation = request.ToLocation
+            };
+            var result = GetDrivingInfo(param);
+            if (result == null)
+            {
+                response.ResultMsg = "网络异常，请稍后重试";
+                return response;
+            }
+            response.StateCode = 200;
+            response.ResultMsg = "查询成功";
+            response.Money = result.result.routes.FirstOrDefault().taxi_fare.fare;
+
+            return response;
         }
 
-
         /// <summary>
-        /// 获取路线规划信息
+        /// 获取路线规划信息(api只会出一条数据)
         /// </summary>
         /// <param name="resquest"></param>
         /// <returns></returns>
@@ -166,6 +194,7 @@ namespace TCCarShare.Services
 
             return result;
         }
+
 
     }
 }
