@@ -11,7 +11,7 @@ namespace TCCarShare.Entity.Response
     /// </summary>
     public class GetOrderListByDriverResponse : CommonBaseInfo
     {
-
+        public List<OrderListByDriver> OrderList { get; set; } = new List<OrderListByDriver>();
     }
 
     /// <summary>
@@ -19,7 +19,60 @@ namespace TCCarShare.Entity.Response
     /// </summary>
     public class OrderListByDriver
     {
+        /// <summary>
+        /// 主键ID
+        /// </summary>
+        public int Id { get; set; }
 
+        /// <summary>
+        /// 用户名称
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
+        /// 是否单身0 ：否 1：是
+        /// </summary>
+        public int IsSingle { get; set; }
+
+        /// <summary>
+        /// 性别 0：男 1：女
+        /// </summary>
+        public int SexType { get; set; }
+
+        /// <summary>
+        /// 出发日期
+        /// </summary>
+        public string Date { get; set; }
+
+        /// <summary>
+        /// 人数
+        /// </summary>
+        public int PeopleCount { get; set; }
+
+        /// <summary>
+        /// 金钱
+        /// </summary>
+        public decimal Money { get; set; }
+
+        /// <summary>
+        /// 出发地址
+        /// </summary>
+        public string FromPlace { get; set; }
+
+        /// <summary>
+        /// 到达地址
+        /// </summary>
+        public string ToPlace { get; set; }
+
+        /// <summary>
+        /// 相似度
+        /// </summary>
+        public string Percent { get; set; }
+
+        /// <summary>
+        /// 手机号
+        /// </summary>
+        public string PhoneNumber { get; set; }
     }
 
     /// <summary>
