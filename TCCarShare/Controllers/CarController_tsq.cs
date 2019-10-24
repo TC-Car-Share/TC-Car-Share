@@ -8,7 +8,7 @@ using TCCarShare.Models;
 
 namespace TCCarShare.Controllers
 {
-    public partial class CarController : Controller
+    public partial class CarController
     {
         [HttpPost("GetCarInfoList")]
         public string GetCarInfoList()

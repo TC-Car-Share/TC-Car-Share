@@ -5,7 +5,8 @@ using System.Threading.Tasks;
 
 namespace TCCarShare.Models.Response
 {
-    public class GetSuggestionListResponse
+    public class GetSuggestionListResponse : CommonBaseInfo
     {
+
     }
 }

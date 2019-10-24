@@ -13,11 +13,11 @@ namespace TCCarShare.Models
         /// <summary>
         /// 状态码 200表示成功
         /// </summary>
-        public int StateCode { get; set; }
+        public int stateCode { get; set; }
 
         /// <summary>
         /// 结果消息
         /// </summary>
-        public string ResultMsg { get; set; }
+        public string resultMsg { get; set; }
     }
 }

@@ -9,10 +9,18 @@ namespace TCCarShare.Services
 {
     public class MapServices
     {
-
+        /// <summary>
+        /// 关键词输入提示
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         public GetSuggestionListResponse GetSuggestionList(GetSuggestionListRequest request)
         {
-            var response = new GetSuggestionListResponse();
+            var response = new GetSuggestionListResponse() {
+
+            };
+
+
             return response;
         }
     }
