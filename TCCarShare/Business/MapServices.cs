@@ -293,19 +293,17 @@ namespace TCCarShare.Services
                     var isCan2 = false;
                     var location1 = "";
                     var location2 = "";
-                    var result = GetCanTakeitResult(request.FromLat + "," + request.FromLng, coors);
-                    isCan1 = result.result;
-                    location1 = result.location;
-                    var result2 = GetCanTakeitResult(request.ToLat + "," + request.ToLng, coors);
-                    isCan2 = result2.result;
-                    location2 = result2.location;
                     tasks.Add(Task.Factory.StartNew(() =>
                     {
-
+                        var result = GetCanTakeitResult(request.FromLat + "," + request.FromLng, coors);
+                        isCan1 = result.result;
+                        location1 = result.location;
                     }));
                     tasks.Add(Task.Factory.StartNew(() =>
                     {
-
+                        var result = GetCanTakeitResult(request.ToLat + "," + request.ToLng, coors);
+                        isCan2 = result.result;
+                        location2 = result.location;
                     }));
 
                     Task.WhenAll(tasks.ToArray()).Wait();
