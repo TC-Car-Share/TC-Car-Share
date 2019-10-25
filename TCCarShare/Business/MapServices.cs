@@ -395,7 +395,6 @@ namespace TCCarShare.Services
             var location = "";
             while (low <= high)
             {
-                int aaa = (4 + 5) / 2;
                 int middle = (low + high) / 2;
                 //距离计算一对多
                 var toLoncation = latlngBaseInfo[low] + ";" + latlngBaseInfo[middle] + ";" + latlngBaseInfo[high];
