@@ -45,7 +45,7 @@ namespace TCCarShare.Controllers
         [HttpPost("EditCarInfo")]
         public string EditCarInfo([FromBody]EditCarInfoRequest request)
         {
-            var result = new EditCarInfoResponse();
+            var result = new CommonBaseInfo();
             if (request.id.PackInt() > 0)
             {
                 var model = _repository.GetById(request.id.PackInt());

@@ -8,6 +8,10 @@ namespace TCCarShare.Entity.Request
 {
     public class EditOrderRequest
     {
+
+        /// <summary>
+        /// 订单ID
+        /// </summary>
         public string id { get; set; }
 
         public string driverId { get; set; }
