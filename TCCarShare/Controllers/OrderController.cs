@@ -159,7 +159,7 @@ namespace TCCarShare.Controllers
                     if (employee != null)
                     {
                         orderDetail.driverName = employee.name;
-                        orderDetail.driverEmployRole = employee.empRole.ToString();
+                        orderDetail.driverEmployStation = employee.empStation.ToString();
                     }
                 }
 

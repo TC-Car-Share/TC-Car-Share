@@ -28,7 +28,7 @@ namespace TCCarShare.Entity.Response
         public string passengerName { get; set; } = string.Empty;
         public string passengerEmployRole { get; set; } = string.Empty;
         public string driverName { get; set; } = string.Empty;
-        public string driverEmployRole { get; set; } = string.Empty;
+        public string driverEmployStation { get; set; } = string.Empty;
 
     }
 }
