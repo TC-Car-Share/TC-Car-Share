@@ -57,15 +57,12 @@ namespace TCCarShare.Services
             foreach (var item in orders)
             {
                 var waitingOrder = new WaitingOrder();
-                if (item.driverId > 0)
+                Employee employee = _context.Employee.Find(item.passengerId);
+                if (employee != null)
                 {
-                    Employee employee = _context.Employee.Find(item.passengerId);
-                    if (employee != null)
-                    {
-                        waitingOrder.extension.isSingle = employee.isSingle.ToString();
-                        waitingOrder.extension.passengerName = employee.name;
-                        waitingOrder.extension.phoneNumber = employee.mobile;
-                    }
+                    waitingOrder.extension.isSingle = employee.isSingle.ToString();
+                    waitingOrder.extension.passengerName = employee.name;
+                    waitingOrder.extension.phoneNumber = employee.mobile;
                 }
                 waitingOrder.info.startDateTime = item.startDateTime;
                 waitingOrder.info.startPoint = item.startPoint;
