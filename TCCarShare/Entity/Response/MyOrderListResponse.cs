@@ -13,6 +13,7 @@ namespace TCCarShare.Entity.Response
     public class OrderDetail
     {
         public string id { get; set; } = string.Empty;
+        public string passengerId { get; set; } = string.Empty;
         public string driverId { get; set; } = string.Empty;
         public string status { get; set; } = string.Empty;
         public string startPoint { get; set; } = string.Empty;
