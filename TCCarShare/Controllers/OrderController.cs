@@ -96,6 +96,11 @@ namespace TCCarShare.Controllers
                 }
                 entry.Property(p=>p.driverId).IsModified = true;
             }
+            //取消订单删除车主信息
+            if (request.status.PackInt() == 0)
+            {
+                entry.Property(p => p.driverId).IsModified = true;
+            }
             entry.Property(p => p.status).IsModified = true;
             var result = _context.SaveChanges() > 0;
             if (result)
