@@ -175,7 +175,7 @@ namespace TCCarShare.Controllers
                     {
                         orderDetail.sex = employee.sex.ToString();
                         orderDetail.orderNum = new Random(1).Next(5, 30).ToString();
-                        orderDetail.rate = (new Random().NextDouble() * 5).ToString();
+                        orderDetail.rate = ( new Random().NextDouble() * 5).ToString();
                         
                     }
                     Car car = _context.Car.Where(m => m.carMasterId == item.driverId).FirstOrDefault();
