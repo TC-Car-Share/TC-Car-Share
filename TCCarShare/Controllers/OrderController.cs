@@ -83,8 +83,10 @@ namespace TCCarShare.Controllers
 
             order.id = request.id.PackInt();
             order.status = request.status.PackInt();
-            order.driverId = request.driverId.PackInt();
-
+            if (request.driverId.PackInt() > 0)
+            {
+                order.driverId = request.driverId.PackInt();
+            }
             var entry = _context.Attach(order);
             entry.State = EntityState.Unchanged;
             if (request.driverId.PackInt() > 0)
@@ -99,7 +101,7 @@ namespace TCCarShare.Controllers
             //取消订单删除车主信息
             if (request.status.PackInt() == 0)
             {
-                order.driverId = request.driverId.PackInt();
+                order.driverId = 0;
                 entry.Property(p => p.driverId).IsModified = true;
             }
             entry.Property(p => p.status).IsModified = true;
