@@ -48,7 +48,7 @@ namespace TCCarShare.Services
         public List<WaitingOrder> GetAllWaiting(WaitingOrderRequest request)
         {
             var resp = new List<WaitingOrder>();
-            List<Order> orders = _context.Order.Where(m => m.status == 0)?.ToList();
+            List<Order> orders = _context.Order.Where(m => m.status == 0 && m.startDateTime > DateTime.Now)?.ToList();
             if (orders == null || orders.Count == 0)
             {
                 return null;
@@ -76,7 +76,7 @@ namespace TCCarShare.Services
                 waitingOrder.info.endLat = item.endLat;
                 waitingOrder.info.endLon = item.endLon;
                 waitingOrder.info.id = item.id;
-                if (request.userId > 0 && waitingOrder.info.id.PackInt() == request.userId)
+                if (request.userId > 0 && waitingOrder.info.passengerId.PackInt() == request.userId)
                 {
                     continue;
                 }
