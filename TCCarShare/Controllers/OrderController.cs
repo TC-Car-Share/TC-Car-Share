@@ -144,12 +144,13 @@ namespace TCCarShare.Controllers
             foreach (var item in orders)
             {
                 var orderDetail = new OrderDetail();
+                orderDetail.id = item.id.ToString();
                 if (request.driverId.PackInt() > 0) //当前为司机订单
                 {
                     Employee employee = _context.Employee.Find(item.passengerId);
                     if (employee != null)
                     {
-                        orderDetail.id = employee.id.ToString();
+                        orderDetail.passengerId = item.passengerId.ToString();
                         orderDetail.driverId = driverId.ToString();
                         orderDetail.passengerName = employee.name;
                         orderDetail.passengerEmployRole = employee.empRole.ToString();
@@ -157,7 +158,7 @@ namespace TCCarShare.Controllers
                 }
                 else
                 {
-                    orderDetail.id = request.passengerId.ToString();
+                    orderDetail.passengerId = request.passengerId.ToString();
                     Employee employee = _context.Employee.Find(item.driverId);
                     if (employee != null)
                     {
