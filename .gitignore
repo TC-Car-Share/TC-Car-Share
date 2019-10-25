@@ -6,3 +6,6 @@ TCCarShare/bin/Debug/netcoreapp2.1/
 *.lock
 TCCarShare/TCCarShare.csproj
 TCCarShare/bin/Debug/netcoreapp2.1/Properties/launchSettings.json
+TCCarShare/bin/Release/
+TCCarShare/Properties/
+TCCarShare/TCCarShare.csproj.user

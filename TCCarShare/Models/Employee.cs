@@ -28,5 +28,6 @@ namespace TCCarShare.Models
         public string password { get; set; }
 
         public int empRole { get; set; }
+        public int empStation { get; set; }
     }
 }
