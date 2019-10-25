@@ -83,17 +83,17 @@ namespace TCCarShare.Controllers
 
             order.id = request.id.PackInt();
             order.status = request.status.PackInt();
+            order.driverId = request.driverId.PackInt();
 
             var entry = _context.Attach(order);
             entry.State = EntityState.Unchanged;
-            if (order.driverId > 0)
+            if (request.driverId.PackInt() > 0)
             {
                 if (new OrderServices(_context).GetAllPassengerNum(order.driverId) + order.passengerNum > 3)
                 {
                     resp.ResultMsg = "您超过最大载客数，无法接单";
                     resp.StateCode = 200;
                 }
-                order.driverId = request.driverId.PackInt();
                 entry.Property(p=>p.driverId).IsModified = true;
             }
             //取消订单删除车主信息
