@@ -75,6 +75,7 @@ namespace TCCarShare.Services
                 waitingOrder.info.startLon = item.startLon;
                 waitingOrder.info.endLat = item.endLat;
                 waitingOrder.info.endLon = item.endLon;
+                waitingOrder.info.id = item.id;
                 if (request.userId > 0 && waitingOrder.info.id.PackInt() == request.userId)
                 {
                     continue;
