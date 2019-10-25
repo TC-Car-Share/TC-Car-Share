@@ -192,6 +192,7 @@ namespace TCCarShare.Controllers
                 orderDetail.status = item.status.ToString();
                 orderDetail.startDateTime = item.startDateTime.ToString();
                 orderDetail.startPoint = item.startPoint;
+                orderDetail.endPoint = item.endPoint;
                 orderDetail.passengerNum = item.passengerNum.ToString();
                 orderDetail.orderAmount = item.orderAmount.ToString();
                 resp.list.Add(orderDetail);
