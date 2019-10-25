@@ -67,7 +67,7 @@ namespace TCCarShare.Entity.Response
         /// <summary>
         /// 相似度
         /// </summary>
-        public string Percent { get; set; }
+        public decimal Percent { get; set; }
 
         /// <summary>
         /// 手机号

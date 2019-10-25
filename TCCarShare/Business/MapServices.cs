@@ -269,111 +269,116 @@ namespace TCCarShare.Services
                 return response;
             }
 
+            List<Task> taskFororders = new List<Task>();
             foreach (var item in orderList)
             {
-                var isCan = false;
-                var dis = 0m;
-                if (drivingInfo.result.routes.FirstOrDefault().distance < item.info.distance)
+                taskFororders.Add(Task.Factory.StartNew(() =>
                 {
-                    //如果小于乘客，则去查询乘客路线
-                    var userInfo = GetDrivingInfo(new GetDrivingInfoResquest()
+                    var isCan = false;
+                    var dis = 0m;
+                    if (drivingInfo.result.routes.FirstOrDefault().distance < item.info.distance)
                     {
-                        FromLocation = item.info.startLat + "," + item.info.startLon,
-                        ToLocation = item.info.endLat + "," + item.info.endLon
-                    });
-                    if (userInfo == null || userInfo.status != 0 || userInfo.result.routes == null || userInfo.result.routes.Count <= 0)
+                        //如果小于乘客，则去查询乘客路线
+                        var userInfo = GetDrivingInfo(new GetDrivingInfoResquest()
+                        {
+                            FromLocation = item.info.startLat + "," + item.info.startLon,
+                            ToLocation = item.info.endLat + "," + item.info.endLon
+                        });
+                        if (userInfo == null || userInfo.status != 0 || userInfo.result.routes == null || userInfo.result.routes.Count <= 0)
+                        {
+                            return;
+                        }
+
+                        var coors = GetlatlngInfoList(userInfo.result.routes.FirstOrDefault().polyline);
+
+                        List<Task> tasks = new List<Task>();
+                        var isCan1 = false;
+                        var isCan2 = false;
+                        var location1 = "";
+                        var location2 = "";
+                        tasks.Add(Task.Factory.StartNew(() =>
+                        {
+                            var result = GetCanTakeitResult(request.FromLat + "," + request.FromLng, coors);
+                            isCan1 = result.result;
+                            location1 = result.location;
+                        }));
+                        tasks.Add(Task.Factory.StartNew(() =>
+                        {
+                            var result = GetCanTakeitResult(request.ToLat + "," + request.ToLng, coors);
+                            isCan2 = result.result;
+                            location2 = result.location;
+                        }));
+
+                        Task.WhenAll(tasks.ToArray()).Wait();
+
+                        var disInfo = GetDrivingInfo(new GetDrivingInfoResquest()
+                        {
+                            FromLocation = location1,
+                            ToLocation = location2
+                        });
+                        if (userInfo != null && userInfo.status == 0 && userInfo.result.routes != null && userInfo.result.routes.Count > 0)
+                        {
+                            dis = userInfo.result.routes.FirstOrDefault().distance;
+                        }
+
+                        isCan = isCan1 && isCan2;
+                    }
+                    else
                     {
-                        continue;
+                        var coors = GetlatlngInfoList(drivingInfo.result.routes.FirstOrDefault().polyline);
+                        List<Task> tasks = new List<Task>();
+                        var isCan1 = false;
+                        var isCan2 = false;
+                        var location1 = "";
+                        var location2 = "";
+                        tasks.Add(Task.Factory.StartNew(() =>
+                        {
+                            var result = GetCanTakeitResult(item.info.startLat + "," + item.info.startLon, coors);
+                            isCan1 = result.result;
+                            location1 = result.location;
+                        }));
+                        tasks.Add(Task.Factory.StartNew(() =>
+                        {
+                            var result = GetCanTakeitResult(item.info.endLat + "," + item.info.endLon, coors);
+                            isCan2 = result.result;
+                            location2 = result.location;
+                        }));
+
+                        Task.WhenAll(tasks.ToArray()).Wait();
+
+                        var disInfo = GetDrivingInfo(new GetDrivingInfoResquest()
+                        {
+                            FromLocation = location1,
+                            ToLocation = location2
+                        });
+                        if (disInfo != null && disInfo.status == 0 && disInfo.result.routes != null && disInfo.result.routes.Count > 0)
+                        {
+                            dis = disInfo.result.routes.FirstOrDefault().distance;
+                        }
+                        isCan = isCan1 && isCan2;
                     }
 
-                    var coors = GetlatlngInfoList(userInfo.result.routes.FirstOrDefault().polyline);
-
-                    List<Task> tasks = new List<Task>();
-                    var isCan1 = false;
-                    var isCan2 = false;
-                    var location1 = "";
-                    var location2 = "";
-                    tasks.Add(Task.Factory.StartNew(() =>
+                    if (isCan)
                     {
-                        var result = GetCanTakeitResult(request.FromLat + "," + request.FromLng, coors);
-                        isCan1 = result.result;
-                        location1 = result.location;
-                    }));
-                    tasks.Add(Task.Factory.StartNew(() =>
-                    {
-                        var result = GetCanTakeitResult(request.ToLat + "," + request.ToLng, coors);
-                        isCan2 = result.result;
-                        location2 = result.location;
-                    }));
-
-                    Task.WhenAll(tasks.ToArray()).Wait();
-
-                    var disInfo = GetDrivingInfo(new GetDrivingInfoResquest()
-                    {
-                        FromLocation = location1,
-                        ToLocation = location2
-                    });
-                    if (userInfo != null && userInfo.status == 0 && userInfo.result.routes != null && userInfo.result.routes.Count > 0)
-                    {
-                        dis = userInfo.result.routes.FirstOrDefault().distance;
+                        response.OrderList.Add(new OrderListByDriver()
+                        {
+                            Id = item.info.id,
+                            SexType = Convert.ToInt32(item.info.sex),
+                            IsSingle = Convert.ToInt32(item.extension.isSingle),
+                            Date = item.info.startDateTime.ToString("yyyy-MM-dd HH:mm"),
+                            FromPlace = item.info.startPoint,
+                            Money = item.info.orderAmount,
+                            PeopleCount = item.info.passengerNum,
+                            ToPlace = item.info.endPoint,
+                            PhoneNumber = item.extension.phoneNumber,
+                            Name = item.extension.passengerName,
+                            Percent = Convert.ToDecimal((dis / item.info.distance).ToString("0.##")) > 95m ? 90m : Convert.ToDecimal((dis / item.info.distance).ToString("0.##"))
+                        });
                     }
-                    
-                    isCan = isCan1 && isCan2;
-                }
-                else
-                {
-                    var coors = GetlatlngInfoList(drivingInfo.result.routes.FirstOrDefault().polyline);
-                    List<Task> tasks = new List<Task>();
-                    var isCan1 = false;
-                    var isCan2 = false;
-                    var location1 = "";
-                    var location2 = "";
-                    tasks.Add(Task.Factory.StartNew(() =>
-                    {
-                        var result = GetCanTakeitResult(item.info.startLat + "," + item.info.startLon, coors);
-                        isCan1 = result.result;
-                        location1 = result.location;
-                    }));
-                    tasks.Add(Task.Factory.StartNew(() =>
-                    {
-                        var result = GetCanTakeitResult(item.info.endLat + "," + item.info.endLon, coors);
-                        isCan2 = result.result;
-                        location2 = result.location;
-                    }));
-
-                    Task.WhenAll(tasks.ToArray()).Wait();
-
-                    var disInfo = GetDrivingInfo(new GetDrivingInfoResquest()
-                    {
-                        FromLocation = location1,
-                        ToLocation = location2
-                    });
-                    if (disInfo != null && disInfo.status == 0 && disInfo.result.routes != null && disInfo.result.routes.Count > 0)
-                    {
-                        dis = disInfo.result.routes.FirstOrDefault().distance;
-                    }
-                    isCan = isCan1 && isCan2;
-                }
-
-                if (isCan)
-                {
-                    response.OrderList.Add(new OrderListByDriver()
-                    {
-                        Id = item.info.id,
-                        SexType = Convert.ToInt32(item.info.sex),
-                        IsSingle = Convert.ToInt32(item.extension.isSingle),
-                        Date = item.info.startDateTime.ToString("yyyy-MM-dd HH:mm"),
-                        FromPlace = item.info.startPoint,
-                        Money = item.info.orderAmount,
-                        PeopleCount = item.info.passengerNum,
-                        ToPlace = item.info.endPoint,
-                        PhoneNumber = item.extension.phoneNumber,
-                        Name = item.extension.passengerName,
-                        Percent = (dis / item.info.distance).ToString("0.##"),
-                    });
-                }
+                }));
             }
-
+            Task.WhenAll(taskFororders.ToArray()).Wait();
+            response.OrderList = response.OrderList.OrderByDescending(m => m.Percent).ToList();
             response.StateCode = 200;
             response.ResultMsg = "查询成功";
 
