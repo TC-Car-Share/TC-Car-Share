@@ -361,6 +361,12 @@ namespace TCCarShare.Services
 
                     if (isCan)
                     {
+                        var tempDis = 0m;
+                        if (item.info.distance > 0)
+                        {
+                            tempDis = Convert.ToDecimal((dis / item.info.distance).ToString("0.##")) > 95m ? 90m : Convert.ToDecimal((dis / item.info.distance).ToString("0.##"));
+                        }
+
                         response.OrderList.Add(new OrderListByDriver()
                         {
                             Id = item.info.id,
@@ -373,7 +379,7 @@ namespace TCCarShare.Services
                             ToPlace = item.info.endPoint,
                             PhoneNumber = item.extension.phoneNumber,
                             Name = item.extension.passengerName,
-                            Percent = Convert.ToDecimal((dis / item.info.distance).ToString("0.##")) > 95m ? 90m : Convert.ToDecimal((dis / item.info.distance).ToString("0.##"))
+                            Percent = tempDis
                         });
                     }
                 }));
