@@ -30,6 +30,11 @@ namespace TCCarShare.Entity.Response
         public string Name { get; set; }
 
         /// <summary>
+        /// 0-研发,1-运营，2-产品，3-商务，4-客服，5-设计
+        /// </summary>
+        public string EmpStation { get; set; }
+
+        /// <summary>
         /// 是否单身0 ：否 1：是
         /// </summary>
         public int IsSingle { get; set; }

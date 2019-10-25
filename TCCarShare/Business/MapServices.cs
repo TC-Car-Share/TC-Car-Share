@@ -366,6 +366,22 @@ namespace TCCarShare.Services
                         {
                             tempDis = Convert.ToDecimal((dis / item.info.distance).ToString("0.##")) > 95m ? 90m : Convert.ToDecimal((dis / item.info.distance).ToString("0.##"));
                         }
+                        var empStation = "";
+                        switch (item.extension.empStation)
+                        {
+                            case 0:
+                                empStation = "研发";break;
+                            case 1:
+                                empStation = "运营"; break;
+                            case 2:
+                                empStation = "产品"; break;
+                            case 3:
+                                empStation = "商务"; break;
+                            case 4:
+                                empStation = "客服"; break;
+                            case 5:
+                                empStation = "设计"; break;
+                        }
 
                         response.OrderList.Add(new OrderListByDriver()
                         {
@@ -379,7 +395,8 @@ namespace TCCarShare.Services
                             ToPlace = item.info.endPoint,
                             PhoneNumber = item.extension.phoneNumber,
                             Name = item.extension.passengerName,
-                            Percent = tempDis
+                            Percent = tempDis,
+                            EmpStation= empStation
                         });
                     }
                 }));

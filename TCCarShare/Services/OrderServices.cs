@@ -63,6 +63,7 @@ namespace TCCarShare.Services
                     waitingOrder.extension.isSingle = employee.isSingle.ToString();
                     waitingOrder.extension.passengerName = employee.name;
                     waitingOrder.extension.phoneNumber = employee.mobile;
+                    waitingOrder.extension.empStation = employee.empStation;
                 }
                 waitingOrder.info.startDateTime = item.startDateTime;
                 waitingOrder.info.startPoint = item.startPoint;
