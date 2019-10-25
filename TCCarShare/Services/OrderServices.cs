@@ -66,10 +66,15 @@ namespace TCCarShare.Services
                 }
                 waitingOrder.info.startDateTime = item.startDateTime;
                 waitingOrder.info.startPoint = item.startPoint;
+                waitingOrder.info.endPoint = item.endPoint;
                 waitingOrder.info.passengerNum = item.passengerNum;
                 waitingOrder.info.orderAmount = item.orderAmount;
                 waitingOrder.info.distance = item.distance;
                 waitingOrder.info.sex = item.sex;
+                waitingOrder.info.startLat = item.startLat;
+                waitingOrder.info.startLon = item.startLon;
+                waitingOrder.info.endLat = item.endLat;
+                waitingOrder.info.endLon = item.endLon;
                 if (request.sex > -1 && waitingOrder.info.sex.PackInt() != request.sex)
                 {
                     continue;
@@ -78,7 +83,7 @@ namespace TCCarShare.Services
                 {
                     continue;
                 }
-                if (request.startDate != "" && waitingOrder.info.startDateTime.ToShortDateString() != request.startDate)
+                if (request.startDate != "" && waitingOrder.info.startDateTime.ToString("yyyy-MM-dd") != request.startDate)
                 {
                     continue;
                 }

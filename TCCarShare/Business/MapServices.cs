@@ -293,17 +293,19 @@ namespace TCCarShare.Services
                     var isCan2 = false;
                     var location1 = "";
                     var location2 = "";
+                    var result = GetCanTakeitResult(request.FromLat + "," + request.FromLng, coors);
+                    isCan1 = result.result;
+                    location1 = result.location;
+                    var result2 = GetCanTakeitResult(request.ToLat + "," + request.ToLng, coors);
+                    isCan2 = result2.result;
+                    location2 = result2.location;
                     tasks.Add(Task.Factory.StartNew(() =>
                     {
-                        var result = GetCanTakeitResult(request.FromLat + "," + request.FromLng, coors);
-                        isCan1 = result.result;
-                        location1 = result.location;
+
                     }));
                     tasks.Add(Task.Factory.StartNew(() =>
                     {
-                        var result = GetCanTakeitResult(request.ToLat + "," + request.ToLng, coors);
-                        isCan2 = result.result;
-                        location2 = result.location;
+
                     }));
 
                     Task.WhenAll(tasks.ToArray()).Wait();
@@ -377,7 +379,7 @@ namespace TCCarShare.Services
             response.StateCode = 200;
             response.ResultMsg = "查询成功";
 
-            return null;
+            return response;
         }     
 
         /// <summary>
@@ -393,6 +395,7 @@ namespace TCCarShare.Services
             var location = "";
             while (low <= high)
             {
+                int aaa = (4 + 5) / 2;
                 int middle = (low + high) / 2;
                 //距离计算一对多
                 var toLoncation = latlngBaseInfo[low] + ";" + latlngBaseInfo[middle] + ";" + latlngBaseInfo[high];
@@ -415,15 +418,14 @@ namespace TCCarShare.Services
                 }
 
                 //取距离最短的两个点
-                var points = result.result.elements.OrderByDescending(m => m.distance).Take(2).ToList();
+                var points = result.result.elements.OrderBy(m => m.distance).Take(2).ToList();
                 //获取最短的距离
                 var dis = points.FirstOrDefault().distance;
                 if (disTemp > dis)
                 {
                     disTemp = dis;
                 }
-
-                //最短的距离不可能是两端
+ 
                 var firstLocation = points[0].to.lat + "," + points[0].to.lng;
                 var secondLocation = points[1].to.lat + "," + points[1].to.lng;
                 if (firstLocation == latlngBaseInfo[low])
@@ -432,11 +434,6 @@ namespace TCCarShare.Services
                     break;//最短距离已找到，直接结束
                 }
                 else if (firstLocation == latlngBaseInfo[high])
-                {
-                    location = firstLocation;
-                    break;//最短距离已找到，直接结束
-                }
-                else if (firstLocation == latlngBaseInfo[middle] && high - middle == middle - low)
                 {
                     location = firstLocation;
                     break;//最短距离已找到，直接结束
@@ -454,7 +451,7 @@ namespace TCCarShare.Services
             }
 
             //大于2.5公里都不符合
-            return (disTemp > 2500, location);
+            return (disTemp < 2500, location);
         }
     }
 }
