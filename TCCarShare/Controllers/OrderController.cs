@@ -143,7 +143,7 @@ namespace TCCarShare.Controllers
 
             if (request.status != "-1")
             {
-                var status = request.PackInt();
+                var status = request.status.PackInt();
                 orders = orders.Where(m => m.status == status).ToList();
             }
             foreach (var item in orders)
