@@ -11,6 +11,11 @@ namespace TCCarShare.Entity.Request
     public class GetOrderListByDriverRequest
     {
         /// <summary>
+        /// 用户Id
+        /// </summary>
+        public int UserId { get; set; }
+
+        /// <summary>
         /// 出发地经纬度
         /// </summary>
         public string FromLat { get; set; }

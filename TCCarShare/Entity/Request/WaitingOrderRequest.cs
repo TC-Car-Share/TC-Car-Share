@@ -8,7 +8,10 @@ namespace TCCarShare.Entity.Request
 {
     public class WaitingOrderRequest
     {
-
+        /// <summary>
+        /// 用户Id
+        /// </summary>
+        public int userId { get; set; }
         /// <summary>
         /// 性别
         /// </summary>

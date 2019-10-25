@@ -249,7 +249,8 @@ namespace TCCarShare.Services
             {
                 sex=request.SexType,
                 startDate=request.Date,
-                isSingle=request.IsSingle                
+                isSingle=request.IsSingle,
+                userId=request.UserId
             });
             if (orderList == null || orderList.Count <= 0)
             {
