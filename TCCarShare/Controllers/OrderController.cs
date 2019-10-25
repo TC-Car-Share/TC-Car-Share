@@ -147,14 +147,20 @@ namespace TCCarShare.Controllers
                 if (request.driverId.PackInt() > 0)
                 {
                     Employee employee = _context.Employee.Find(item.passengerId);
-                    orderDetail.passengerName = employee.name;
-                    orderDetail.passengerEmployRole = employee.empRole.ToString();
+                    if (employee != null)
+                    {
+                        orderDetail.passengerName = employee.name;
+                        orderDetail.passengerEmployRole = employee.empRole.ToString();
+                    }
                 }
                 else
                 {
                     Employee employee = _context.Employee.Find(item.driverId);
-                    orderDetail.driverName = employee.name;
-                    orderDetail.driverEmployRole = employee.empRole.ToString();
+                    if (employee != null)
+                    {
+                        orderDetail.driverName = employee.name;
+                        orderDetail.driverEmployRole = employee.empRole.ToString();
+                    }
                 }
 
                 if (item.driverId > 0)
